@@ -1,23 +1,18 @@
-export default class Team {
+export default class ErrorRepository {
   constructor() {
-      this.members = new Set();
-  }
-  add(name) {
-    this.members.forEach((item) => {
-      if (item === name) {
-        throw new Error('Персонаж уже добавлен в команду')
-      }
-    });
-    this.members.add(name);
+      this.errors = new Map([
+        [1, 'Ошибка сервера'],
+        [2, 'Ошибка ввода'],
+        [3, 'Ошибка вывода'],
+        [4, 'Ошибка'],
+      ]);
   }
 
-  addAll(...name) {
-    name.forEach((item)=>{
-      this.add(item);
-    });
-  }
-
-  toArray() {
-    return Array.from(this.members);
+  translate(code) {
+    if (!this.errors.has(code)) {
+      throw new Error('Unknown error')
+    } else {
+      return this.errors.get(code);
+    }
   }
 }
